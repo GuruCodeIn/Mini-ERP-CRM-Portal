@@ -1,18 +1,8 @@
 import "dotenv/config";
-import express from "express";
+import { app } from "./app.js";
 
-const app = express();
+const port = Number(process.env.PORT) || 5000;
 
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.json({
-    message: "Mini ERP CRM API is running",
-  });
-});
-
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Mini ERP CRM API is running on port ${port}`);
 });

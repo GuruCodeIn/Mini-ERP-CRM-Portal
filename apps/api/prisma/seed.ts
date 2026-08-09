@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { hash } from "bcryptjs";
 import { PrismaClient, UserRole } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -11,14 +12,15 @@ const users = [
 ];
 
 async function main() {
+  const passwordHash = await hash("Password@123", 12);
+
   for (const user of users) {
     await prisma.user.upsert({
       where: { email: user.email },
-      update: { name: user.name, role: user.role },
+      update: { name: user.name, role: user.role, passwordHash },
       create: {
         ...user,
-        // Replaced with bcrypt hashes when Phase 2 authentication is implemented.
-        passwordHash: "PHASE_1_PASSWORD_NOT_ENABLED"
+        passwordHash
       }
     });
   }

@@ -29,11 +29,17 @@ Local secrets live only in `.env`, which is gitignored. `.env.example` documents
 
 ## Phase 1 scope
 
-This phase establishes the pnpm workspace, React/Vite/Tailwind project, API project, Prisma data model, database migration workflow, and deterministic local seed data. HTTP endpoints, JWT authentication, and feature UI intentionally start in Phase 2 or later.
+Phase 1 established the pnpm workspace, React/Vite/Tailwind project, API project, Prisma data model, database migration workflow, and deterministic local seed data. Phase 2 adds the authentication API; business modules remain intentionally unimplemented.
+
+## Authentication
+
+- `POST /auth/login` accepts `email` and `password`, then returns a JWT and user details.
+- `GET /auth/me` requires an `Authorization: Bearer <token>` header and returns the verified JWT user.
+- The API exposes `authenticateToken` and `authorizeRoles` middleware for protected role-based routes in subsequent modules.
 
 ## Seed data
 
-The seed creates the four required role records (`ADMIN`, `SALES`, `WAREHOUSE`, and `ACCOUNTS`), one customer, and one product. Login passwords are intentionally not configured until Phase 2.
+The seed creates the four required role records (`ADMIN`, `SALES`, `WAREHOUSE`, and `ACCOUNTS`), one customer, and one product. Each seeded user has the password `Password@123` for local development only.
 
 ## Assumptions
 
